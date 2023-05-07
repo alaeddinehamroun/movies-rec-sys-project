@@ -39,4 +39,10 @@ export class MovieService {
 
   }
 
+
+  // Get recommendations
+  getRecommendations(user_id: Number) {
+    return this.http.get<any[]>(this.SERVER_URL + `recommendations/${user_id}`)
+  }
+
 }

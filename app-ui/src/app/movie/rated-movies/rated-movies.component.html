@@ -1,11 +1,12 @@
 <h1 class="text-center text-5xl font-bold">Rated movies</h1>
 <div class="lg:col-span-3">
-  <ul class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+  <ul class="grid gap-2 sm:grid-cols-2 lg:grid-cols-4">
     <li *ngFor="let rating of ratings | paginate: { itemsPerPage: 12, currentPage: pageNumber }; let i = index">
       <div class="card w-96 bg-base-100 shadow-xl">
         <figure class="px-10 pt-10">
           <img src="https://cdn.pixabay.com/photo/2017/11/24/10/43/ticket-2974645_960_720.jpg" alt="Shoes"
             class="rounded-xl" />
+            
         </figure>
         <div class="card-body items-center text-center">
           <h2 class="card-title">{{rating.movieTitle}}</h2>

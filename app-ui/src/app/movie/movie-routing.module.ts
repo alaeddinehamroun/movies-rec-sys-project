@@ -4,10 +4,12 @@ import { RouterModule, Routes } from '@angular/router';
 import { MovieDetailsComponent } from './movie-details/movie-details.component';
 import { MoviesListComponent } from './movies-list/movies-list.component';
 import { RatedMoviesComponent } from './rated-movies/rated-movies.component';
+import { RecommendedMoviesComponent } from './recommended-movies/recommended-movies.component';
 
 const routes: Routes = [
   { path: 'movies', component: MoviesListComponent },
   { path: 'rated_movies', component: RatedMoviesComponent },
+  { path: 'recommendations', component: RecommendedMoviesComponent },
   { path: 'movies/:id', component: MovieDetailsComponent }
 
 
