@@ -6,11 +6,12 @@ import hbase from 'hbase';
 
 
 
-// const stream = Kafka.Producer.createWriteStream({
-//   'metadata.broker.list': '172.20.0.2:9092'
-// }, {}, { topic: 'ratings-topic' }
-// );
+const stream = Kafka.Producer.createWriteStream({
+  'metadata.broker.list': '172.22.0.2:9092'
+}, {}, { topic: 'ratings-topic' }
+);
 
+const client = hbase({ host: '172.22.0.5', port: 8080 })
 
 
 app.use(express.json()); // Parse JSON requests
@@ -26,15 +27,31 @@ app.use(function (req, res, next) {
 app.post('/ratings', (req, res) => {
 
   //console.log(req.body)
+  const timestamp = Date.now();
+
+  console.log(req.body)
+  const { userId, movie, rating } = req.body
+
+  req.body.timestamp = timestamp
   const message = JSON.stringify(req.body);
 
-  // const success = stream.write(Buffer.from(message));
 
-  // if (success) {
-  //   console.log("Message sent successfully to topic:", message);
-  // } else {
-  //   console.log("Something went wrong.")
-  // }
+
+  const success = stream.write(Buffer.from(message));
+
+  if (success) {
+    console.log("Message sent successfully to topic:", message);
+  } else {
+    console.log("Something went wrong.")
+  }
+  const table = client.table('ratings');
+  table.row(userId.toString()).put(`rating:${movie}`, rating.toString(), (error, success) => {
+
+    if (error) {
+      res.status(500).send('Server Error');
+    }
+    //console.log(success)
+  })
 
   res.send(req.body)
 
@@ -45,7 +62,6 @@ app.post('/ratings', (req, res) => {
 
 
 
-const client = hbase({ host: '172.22.0.5', port: 8080 })
 
 
 
@@ -61,21 +77,26 @@ app.get('/ratings/:userId', (req, res) => {
 
   // const myScanner = new hbase.Scanner(client, {table: 'ratings'})
   const table = client.table('ratings');
-  table.scan({
-    filter: {
-      "op": "MUST_PASS_ALL", "type": "FilterList", "filters": [{
-        "op": "EQUAL",
-        "type": "RowFilter",
-        "comparator": { "value": `^${userId}$`, "type": "RegexStringComparator" }
-      }
-      ]
-    }
-  }, (error, cells) => {
-    if (error) {
-      res.status(500).send('Internal Server Error');
-    }
-    res.send(cells)
-  });
+  table.row(userId).get('rating', (error, value) => {
+    //console.info(value)
+    res.send(value)
+
+  })
+  // table.scan({
+  //   filter: {
+  //     "op": "MUST_PASS_ALL", "type": "FilterList", "filters": [{
+  //       "op": "EQUAL",
+  //       "type": "RowFilter",
+  //       "comparator": { "value": `^${userId}$`, "type": "RegexStringComparator" }
+  //     }
+  //     ]
+  //   }
+  // }, (error, cells) => {
+  //   if (error) {
+  //     res.status(500).send('Internal Server Error');
+  //   }
+  //   res.send(cells)
+  // });
   // client.table("ratings").row('1').get( (error, value) => {
   //   console.info(value)
 
