@@ -158,22 +158,45 @@ app.get('/ratings/:userId', async (req, res) => {
 });
 
 
-
-
-
-
 /**
  * GET /recommendations/:userId
  * Purpose: Get recommendations for a user
  */
 app.get('/recommendations/:userId', (req, res) => {
+  const userId = req.params.userId
 
+  const movies_table = client.table('movies');
+  const recs_table = client.table('user_recommendations');
+  recs_table.row(userId).get('movie', (error, value) => {
+    let r = [];
+    let count = 0;
+    //TODO: Deal with not available movies infos
+    value.forEach(element => {
+      const movieId = element.column.split(':')[1];
+      movies_table.row(movieId).get('genre', (error, v) => {
+        if (error) {
+          if (v) {
+            console.error(error);
+            res.status(500).send('Internal Server Error');
+          }
 
+        } else {
+          if (v)
+            element.movieTitle = v[0].$;
+          else
+            element.movieTitle = 'not available'
+          r.push(element);
+          count++;
+          if (count === value.length) {
+            res.send(r);
+          }
+        }
+      });
+
+    });
+  })
 
 })
-
-
-
 /**
  * GET /movies/:movieId
  * Purpose: Get movie by id
