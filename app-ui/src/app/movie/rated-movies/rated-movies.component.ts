@@ -41,6 +41,8 @@ export class RatedMoviesComponent implements OnInit, AfterViewInit {
 
 
 
+
+
   // findRating(title: string) {
 
   //   const foundRating = this.ratings.find(row => row.column === title);

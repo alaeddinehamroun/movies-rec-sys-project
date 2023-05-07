@@ -8,7 +8,7 @@
             class="rounded-xl" />
         </figure>
         <div class="card-body items-center text-center">
-          <h2 class="card-title">{{rating.column | title}}</h2>
+          <h2 class="card-title">{{rating.movieTitle}}</h2>
           <!-- <h2 class="card-title">{{findRating(rating.column)}}</h2> -->
           <div class="rating rating-half">
             <input type="radio" name="rating-{{i}}" class="rating-hidden" [checked]="rating.$ == 0.0" />

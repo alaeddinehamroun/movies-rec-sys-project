@@ -20,17 +20,22 @@ export class MovieService {
     return this.http.get<any[]>(this.SERVER_URL + `movies`)
   }
 
+  // Get movie by id
+  getMovieById(movie_id: string) {
+    return this.http.get<any[]>(this.SERVER_URL + `movies/${movie_id}`)
+  }
 
 
   // Get ratings
   getRatings(user_id: Number) {
     return this.http.get<any[]>(this.SERVER_URL + `ratings/${user_id}`)
   }
+
   // Add rating
-  addRating(user_id: Number, rating: Number, movie: string) {
+  addRating(user_id: Number, rating: Number, movieId: string) {
 
 
-    return this.http.post(this.SERVER_URL + "ratings", { user_id: user_id, movie: movie, rating: rating })
+    return this.http.post(this.SERVER_URL + "ratings", { userId: user_id, movieId: movieId, rating: rating })
 
   }
 

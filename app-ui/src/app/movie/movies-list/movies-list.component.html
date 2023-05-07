@@ -11,27 +11,27 @@
           <h2 class="card-title">{{movie.$}}</h2>
           <div class="rating rating-half">
             <input type="radio" name="rating-{{i}}" class="rating-hidden" (click)="addRating(0.0, movie.$)"
-              [checked]="findRating(movie.$)==0.0" />
+              [checked]="findRating(movie.key)==0.0" />
             <input type="radio" name="rating-{{i}}" class="mask mask-star-2 mask-half-1 bg-orange-400"
-              (click)="addRating(0.5, movie.$)" [checked]="findRating(movie.$)==0.5" />
+              (click)="addRating(0.5, movie.key)" [checked]="findRating(movie.key)==0.5" />
             <input type="radio" name="rating-{{i}}" class="mask mask-star-2 mask-half-2 bg-orange-400"
-              (click)="addRating(1.0,movie.$)" [checked]="findRating(movie.$)==1.0" />
+              (click)="addRating(1.0,movie.key)" [checked]="findRating(movie.key)==1.0" />
             <input type="radio" name="rating-{{i}}" class="mask mask-star-2 mask-half-1 bg-orange-400"
-              (click)="addRating(1.5,movie.$)" [checked]="findRating(movie.$)==1.5" />
+              (click)="addRating(1.5,movie.key)" [checked]="findRating(movie.key)==1.5" />
             <input type="radio" name="rating-{{i}}" class="mask mask-star-2 mask-half-2 bg-orange-400"
-              (click)="addRating(2.0, movie.$)" [checked]="findRating(movie.$)==2.0" />
+              (click)="addRating(2.0, movie.key)" [checked]="findRating(movie.key)==2.0" />
             <input type="radio" name="rating-{{i}}" class="mask mask-star-2 mask-half-1 bg-orange-400"
-              (click)="addRating(2.5, movie.$)" [checked]="findRating(movie.$)==2.5" />
+              (click)="addRating(2.5, movie.key)" [checked]="findRating(movie.key)==2.5" />
             <input type="radio" name="rating-{{i}}" class="mask mask-star-2 mask-half-2 bg-orange-400"
-              (click)="addRating(3.0, movie.$)" [checked]="findRating(movie.$)==3.0" />
+              (click)="addRating(3.0, movie.key)" [checked]="findRating(movie.key)==3.0" />
             <input type="radio" name="rating-{{i}}" class="mask mask-star-2 mask-half-1 bg-orange-400"
-              (click)="addRating(3.5, movie.$)" [checked]="findRating(movie.$)==3.5" />
+              (click)="addRating(3.5, movie.key)" [checked]="findRating(movie.key)==3.5" />
             <input type="radio" name="rating-{{i}}" class="mask mask-star-2 mask-half-2 bg-orange-400"
-              (click)="addRating(4.0, movie.$)" [checked]="findRating(movie.$)==4.0" />
+              (click)="addRating(4.0, movie.key)" [checked]="findRating(movie.key)==4.0" />
             <input type="radio" name="rating-{{i}}" class="mask mask-star-2 mask-half-1 bg-orange-400"
-              (click)="addRating(4.5, movie.$)" [checked]="findRating(movie.$)==4.5" />
+              (click)="addRating(4.5, movie.key)" [checked]="findRating(movie.key)==4.5" />
             <input type="radio" name="rating-{{i}}" class="mask mask-star-2 mask-half-2 bg-orange-400"
-              (click)="addRating(5.0, movie.$)" [checked]="findRating(movie.$)==5.0" />
+              (click)="addRating(5.0, movie.key)" [checked]="findRating(movie.key)==5.0" />
           </div>
           <div class="card-actions">
             <button class="btn btn-primary">Watch</button>

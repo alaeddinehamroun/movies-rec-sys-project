@@ -22,6 +22,7 @@ export class MoviesListComponent implements OnInit {
       {
         next: (v) => {
           this.movies = v
+          console.log(v)
         },
         error: (e) => {
           console.log(e)
@@ -51,10 +52,10 @@ export class MoviesListComponent implements OnInit {
   }
 
 
-  addRating(rating: number, movie: string) {
+  addRating(rating: number, movieId: string) {
 
 
-    this.movieService.addRating(1, rating, movie).subscribe(
+    this.movieService.addRating(1, rating, movieId).subscribe(
       {
         next: (v) => {
           console.log(v)
@@ -73,12 +74,13 @@ export class MoviesListComponent implements OnInit {
 
 
 
-  findRating(title: string) {
+  findRating(movieId: string) {
+    const foundRating = this.ratings.find(row => row.column === 'rating:'+movieId);
 
-    const foundRating = this.ratings.find(row => row.column === 'rating:'+title);
-
-    if (foundRating)
+    if (foundRating){
       return foundRating.$
+    }
+
     return foundRating
   }
 }
