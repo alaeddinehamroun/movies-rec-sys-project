@@ -6,6 +6,7 @@ import { Error404Component } from './error404/error404.component';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { AuthModule } from '../auth/auth.module';
+import { TitlePipe } from '../pipes/title.pipe';
 
 
 
@@ -13,7 +14,8 @@ import { AuthModule } from '../auth/auth.module';
   declarations: [
     NavbarComponent,
     FooterComponent,
-    Error404Component
+    Error404Component,
+    TitlePipe
   ],
 
   imports: [
@@ -27,6 +29,7 @@ import { AuthModule } from '../auth/auth.module';
     FooterComponent,
     NavbarComponent,
     Error404Component,
+    TitlePipe
   ],
 })
 export class SharedModule { }

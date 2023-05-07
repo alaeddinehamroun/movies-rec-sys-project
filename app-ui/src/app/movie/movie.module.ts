@@ -8,6 +8,7 @@ import { MovieCardComponent } from './movie-card/movie-card.component';
 import { FormsModule } from '@angular/forms';
 import { SharedModule } from '../shared/shared.module';
 import { MovieRoutingModule } from './movie-routing.module';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 
 
@@ -24,6 +25,7 @@ import { MovieRoutingModule } from './movie-routing.module';
     SharedModule,
     CommonModule,
     MovieRoutingModule,
+    NgxPaginationModule
 
   ]
 })

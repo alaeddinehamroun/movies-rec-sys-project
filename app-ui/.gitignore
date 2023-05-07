@@ -1,0 +1,31 @@
+
+# dependencies
+node_modules
+.angular
+
+# compiled output
+/dist
+/tmp
+/out-tsc
+
+# logs and backups
+/logs
+*.log
+*.swp
+*.bak
+
+# IDEs and editors
+/.idea
+/.vscode
+*.sublime-workspace
+
+# misc
+/.sass-cache
+/connect.lock
+/coverage
+/libpeerconnection.log
+npm-debug.log
+testem.log
+/typings
+/yarn-error.log
+/yarn.lock
