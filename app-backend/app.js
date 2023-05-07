@@ -30,7 +30,7 @@ app.post('/ratings', (req, res) => {
   const timestamp = Date.now();
 
   console.log(req.body)
-  const { userId, movie, rating } = req.body
+  const { userId, movieId, rating } = req.body
 
   req.body.timestamp = timestamp
   const message = JSON.stringify(req.body);
@@ -45,7 +45,7 @@ app.post('/ratings', (req, res) => {
     console.log("Something went wrong.")
   }
   const table = client.table('ratings');
-  table.row(userId.toString()).put(`rating:${movie}`, rating.toString(), (error, success) => {
+  table.row(userId.toString()).put(`rating:${movieId}`, rating.toString(), (error, success) => {
 
     if (error) {
       res.status(500).send('Server Error');
@@ -69,51 +69,98 @@ app.post('/ratings', (req, res) => {
  * GET: /ratings:uesrId
  * Purpose: Get ratings by user
  */
-app.get('/ratings/:userId', (req, res) => {
+// app.get('/ratings/:userId', (req, res) => {
+
+
+
+//   const userId = req.params.userId
+
+//   // const myScanner = new hbase.Scanner(client, {table: 'ratings'})
+//   const table = client.table('ratings');
+//   table.row(userId).get('rating', (error, value) => {
+//     //console.info(value)
+//     res.send(value)
+
+//   })
+// table.scan({
+//   filter: {
+//     "op": "MUST_PASS_ALL", "type": "FilterList", "filters": [{
+//       "op": "EQUAL",
+//       "type": "RowFilter",
+//       "comparator": { "value": `^${userId}$`, "type": "RegexStringComparator" }
+//     }
+//     ]
+//   }
+// }, (error, cells) => {
+//   if (error) {
+//     res.status(500).send('Internal Server Error');
+//   }
+//   res.send(cells)
+// });
+// client.table("ratings").row('1').get( (error, value) => {
+//   console.info(value)
+
+// })
+
+// ratings = [
+//   { user_id: 123, movie_id: 1, rating: 4.5 },
+//   { user_id: 123, movie_id: 1, rating: 4.5 },
+//   { user_id: 123, movie_id: 1, rating: 4.5 },
+//   { user_id: 223, movie_id: 1, rating: 4.5 },
+//   { user_id: 223, movie_id: 1, rating: 4.5 },
+//   { user_id: 223, movie_id: 1, rating: 4.5 },
+// ]
+
+// send ratings where user_id == userId
+
+//})
+
+
+app.get('/ratings/:userId', async (req, res) => {
 
 
 
   const userId = req.params.userId
 
   // const myScanner = new hbase.Scanner(client, {table: 'ratings'})
-  const table = client.table('ratings');
-  table.row(userId).get('rating', (error, value) => {
-    //console.info(value)
-    res.send(value)
+  const ratings_table = client.table('ratings');
+  const movies_table = client.table('movies');
 
-  })
-  // table.scan({
-  //   filter: {
-  //     "op": "MUST_PASS_ALL", "type": "FilterList", "filters": [{
-  //       "op": "EQUAL",
-  //       "type": "RowFilter",
-  //       "comparator": { "value": `^${userId}$`, "type": "RegexStringComparator" }
-  //     }
-  //     ]
-  //   }
-  // }, (error, cells) => {
-  //   if (error) {
-  //     res.status(500).send('Internal Server Error');
-  //   }
-  //   res.send(cells)
-  // });
-  // client.table("ratings").row('1').get( (error, value) => {
-  //   console.info(value)
+  ratings_table.row(userId).get('rating', (error, value) => {
+    let r = [];
+    let count = 0;
 
-  // })
+    //TODO: Deal with not available movies infos
+    value.forEach(element => {
+      const movieId = element.column.split(':')[1];
+      movies_table.row(movieId).get('genre', (error, v) => {
+        if (error) {
+          if (v) {
+            console.error(error);
+            res.status(500).send('Internal Server Error');
+          }
 
-  // ratings = [
-  //   { user_id: 123, movie_id: 1, rating: 4.5 },
-  //   { user_id: 123, movie_id: 1, rating: 4.5 },
-  //   { user_id: 123, movie_id: 1, rating: 4.5 },
-  //   { user_id: 223, movie_id: 1, rating: 4.5 },
-  //   { user_id: 223, movie_id: 1, rating: 4.5 },
-  //   { user_id: 223, movie_id: 1, rating: 4.5 },
-  // ]
+        } else {
+          if (v)
+            element.movieTitle = v[0].$;
+          else
+            element.movieTitle = 'not available'
+          r.push(element);
+          count++;
+          if (count === value.length) {
+            res.send(r);
+          }
+        }
+      });
+    });
+  });
 
-  // send ratings where user_id == userId
+});
 
-})
+
+
+
+
 
 /**
  * GET /recommendations/:userId
@@ -131,29 +178,19 @@ app.get('/recommendations/:userId', (req, res) => {
  * GET /movies/:movieId
  * Purpose: Get movie by id
  */
-// TODO: NOT TESTED
-// app.get('/movies/:movieId', (req, res) => {
+app.get('/movies/:movieId', (req, res) => {
 
-//   const movieId = req.params.movieId
+  const movieId = req.params.movieId
 
 
-//   const table = client.table('movies');
-//   table.scan({
-//     filter: {
-//       "op": "MUST_PASS_ALL", "type": "FilterList", "filters": [{
-//         "op": "EQUAL",
-//         "type": "RowFilter",
-//         "comparator": { "value": `^${movieId}$`, "type": "RegexStringComparator" }
-//       }
-//       ]
-//     }
-//   }, (error, rows) => {
-//     if (error) {
-//       res.status(500).send('Internal Server Error');
-//     }
-//     res.send(rows)
-//   });
-// })
+  const table = client.table('movies');
+  table.row(movieId).get('genre', (error, value) => {
+    //console.info(value)
+    res.send(value)
+
+  })
+
+})
 
 /**
  * GET /movies
