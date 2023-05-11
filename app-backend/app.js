@@ -7,7 +7,7 @@ import hbase from 'hbase';
 
 
 const stream = Kafka.Producer.createWriteStream({
-  'metadata.broker.list': '172.22.0.2:9092'
+  'metadata.broker.list': '172.22.0.6:9092'
 }, {}, { topic: 'ratings-topic' }
 );
 
