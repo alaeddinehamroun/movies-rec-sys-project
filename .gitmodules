@@ -1,6 +1,3 @@
-[submodule "notbooks"]
-	path = notbooks
-	url = https://github.com/alaeddinehamroun/Recommender-Systems.git
 [submodule "cluster-config"]
 	path = cluster-config
 	url = https://github.com/liliasfaxi/hadoop-cluster-docker.git
