@@ -4,3 +4,4 @@
 [submodule "cluster-conf"]
 	path = cluster-conf
 	url = https://github.com/alaeddinehamroun/hadoop-cluster-docker.git
+	branch = alaeddine
